@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort
 from flask_jwt_extended import jwt_required, create_access_token
 from models import User
 
@@ -27,3 +27,12 @@ def login():
 @jwt_required
 def protected():
     return jsonify({"msg": "You accessed a protected route!"})
+
+
+@user_service.route('/users/<user_id>/balance', methods=['GET'])
+def get_balance(user_id):
+    user = User.query.filter_by(username=user_id).first()
+    if user is None:
+        abort(404, description="User not found")  # Return HTTP 404 if the user does not exist
+    return jsonify({"balance": user.balance})
+

@@ -13,10 +13,20 @@ def get_user_balance(user_id):
     """This function is used to retrieve the balance of a user from the user service
         It is used to check if the user has sufficient balance to make a payment
         It collects the data from the User class in the user-service directory"""
+
+    # debug
+    print(f"Getting balance for user {user_id}")
+
     try:
         response = requests.get(f'http://localhost:5000/users/{user_id}/balance')
 
+        # Debug
+        print(f"Response status code: {response.status_code}")
+        ####
         response.raise_for_status()  # raises an HTTPError if the response status is 4xx or 5xx
+        # Debug
+        print(f"Response content: {response.content}")
+        ####
         data = response.json()
         return data['balance']
     except requests.RequestException:

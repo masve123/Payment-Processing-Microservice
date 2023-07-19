@@ -19,6 +19,7 @@ with app.app_context():
     # If there are no users in the database, create a test user
     if User.query.count() == 0:
         test_user = User("testuser", "testpass")
+        some_other_user = User("someotheruser", "otherpass")
         db.session.add(test_user)
         db.session.commit()
 
