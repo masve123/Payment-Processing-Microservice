@@ -29,15 +29,6 @@ def protected():
     return jsonify({"msg": "You accessed a protected route!"})
 
 
-# @user_service.route('/users/<user_id>/balance', methods=['GET'])
-# @jwt_required
-# def get_balance(user_id):
-#     user = User.query.filter_by(username=user_id).first()
-#     if user is None:
-#         abort(404, description="User not found")  # Return HTTP 404 if the user does not exist
-#     return jsonify({"balance": user.balance})
-
-
 
 @user_service.route('/users/<user_id>/balance', methods=['GET'])
 @jwt_required()  # Protect this route with JWT
@@ -50,4 +41,7 @@ def get_balance(user_id):
     if user is None:
         abort(404, description="User not found")  # Return HTTP 404 if the user does not exist
     return jsonify({"balance": user.balance})
+
+
+
 
