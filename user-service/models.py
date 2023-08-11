@@ -21,7 +21,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(), unique=True, nullable=False)
     password_hash = db.Column(db.String(), nullable=False)
-    balance = db.Column(db.Float, nullable=False, default=0.0)
+    # The balance field has been moved to account-service
+    #balance = db.Column(db.Float, nullable=False, default=0.0)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -29,10 +30,10 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    def __init__(self, username, password, balance=0.0):
+    def __init__(self, username, password): #balance=0.0):
         self.username = username
         self.set_password(password)
-        self.balance = balance
+        #self.balance = balance
 
     def __repr__(self):
         return f"<User {self.username}>"

@@ -7,4 +7,4 @@ def home():
     return "notification service Home"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5003) # notice the port

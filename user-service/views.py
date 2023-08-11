@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, abort
 from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token
 from models import User
+import requests
 
 user_service = Blueprint('user_service', __name__)
 
@@ -29,7 +30,6 @@ def protected():
     return jsonify({"msg": "You accessed a protected route!"})
 
 
-
 @user_service.route('/users/<user_id>/balance', methods=['GET'])
 @jwt_required()  # Protect this route with JWT
 def get_balance(user_id):
@@ -40,8 +40,20 @@ def get_balance(user_id):
     user = User.query.filter_by(username=user_id).first()
     if user is None:
         abort(404, description="User not found")  # Return HTTP 404 if the user does not exist
-    return jsonify({"balance": user.balance})
+    
+    # Make a request to the Account service to get the balance
+    response = requests.get(f'http://localhost:5002/accounts/{user_id}/balance')
 
+    
 
+    # Check if the request was successful
+    if response.status_code != 200:
+        # Handle error (for example, return a meaningful error message)
+        abort(response.status_code, description="Unable to retrieve balance information")
+    
+    # Parse the balance information from the response
+    balance_info = response.json()
 
+    # Return the balance information
+    return jsonify(balance_info)
 
