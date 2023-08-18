@@ -5,6 +5,8 @@ import requests
 from requests.exceptions import RequestException
 import json
 from errors import NetworkError, InvalidResponseError
+from helpers import validate_user
+
 
 views = Blueprint('views', __name__)
 def get_user_balance(user_id, headers):
@@ -63,6 +65,9 @@ def make_payment():
     recipient = request.json.get('recipient', None)
     amount = request.json.get('amount', None)
 
+    if not validate_user(sender) or not validate_user(recipient):
+        return jsonify({"msg": "Invalid sender or recipient"}), 400
+
     if not sender or not recipient or not amount:
         return jsonify({"msg": "Missing parameters"}), 400
     
@@ -120,6 +125,9 @@ def make_transfer():
     sender = request.json.get('sender', None)
     recipient = request.json.get('recipient', None)
     amount = request.json.get('amount', None)
+
+    if not validate_user(sender) or not validate_user(recipient):
+        return jsonify({"msg": "Invalid sender or recipient"}), 400
 
     if not sender or not recipient or not amount:
         return jsonify({"msg": "Missing parameters"}), 400
