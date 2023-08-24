@@ -20,7 +20,7 @@ username and password, and perhaps personal information like a name, contact inf
 - The separation also provides more flexibility. For example, in the future, if you want to support multiple accounts per user (like savings and checking accounts), or joint accounts (where multiple users own a single account), having separate User and Account models will make these features much easier to implement. Also, by separating the concerns, you can change or refactor one part of your system (like Accounts) without affecting the rest (like Users).
 
 
-Microservice Application with API Gateway
+
 ## Overview
 This project demonstrates the design and implementation of a microservice application using the API gateway architecture. Utilizing Kong as our API gateway, this application supports advanced non-functional properties like load balancing, fault tolerance, and security. The goal is to showcase the advantages of the API gateway approach in comparison to traditional microservice architectures without gateway intervention.
 
